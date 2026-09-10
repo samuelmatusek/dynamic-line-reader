@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 void uvolni_text(char **text, int radky){
 
@@ -31,6 +32,7 @@ int main(void){
     int velikost_textu_vnejsi = 8;
     int znaky = 0;
     int radky = 0;
+    bool enter = false;
 
     printf("Write any text:\n");
 
@@ -42,6 +44,8 @@ int main(void){
     text[0] = malloc(sizeof(*text[0]) * velikost_textu);
   
     while ((c = getchar()) != EOF){
+        enter = false;
+
         if (radky == velikost_textu_vnejsi){
             velikost_textu_vnejsi *= 2;
             char **temp = realloc(text, sizeof(**text) * velikost_textu_vnejsi);
@@ -67,6 +71,7 @@ int main(void){
             velikost_textu = 8;
             znaky = 0;
             radky++;
+            enter = true;
             if(realokuj_text(text, radky, velikost_textu)){
                 printf("Nespravny vstup.\n");
                 return 1;
@@ -76,6 +81,10 @@ int main(void){
             text[radky][znaky] = c;
             znaky++;
         }
+    }
+
+    if(!enter){
+        text[radky][znaky] = '\0';
     }
     
     printf("--- Obracene poradi ---\n");
