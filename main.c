@@ -30,6 +30,7 @@ int main(void){
     int velikost_textu = 8;
     int znaky = 0;
     int radky = 0;
+    int ve_slove = 0;
 
     printf("Write any text:\n");
 
@@ -41,6 +42,10 @@ int main(void){
     text[0] = malloc(sizeof(*text[0]) * velikost_textu);
   
     while ((c = getchar()) != EOF){
+        if (ve_slove){
+            radky++;
+            ve_slove = 0;
+        }
         if (znaky + 1 == velikost_textu && c != '\n'){
             velikost_textu *= 2;
             if(realokuj_text(text, radky, velikost_textu)){
@@ -54,13 +59,13 @@ int main(void){
             text[radky][znaky] = '\0';
             velikost_textu = 8;
             znaky = 0;
-            radky++;
+            ve_slove = 1;
             if(realokuj_text(text, radky, velikost_textu)){
                 printf("Nespravny vstup.\n");
                 return 1;
             }
         }
-        else{
+        else {
             text[radky][znaky] = c;
             znaky++;
         }
