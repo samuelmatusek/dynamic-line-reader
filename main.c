@@ -83,9 +83,8 @@ int main(void){
         }
     }
 
-    if(!enter){
+    if(!enter)
         text[radky][znaky] = '\0';
-    }
     
     printf("--- Obracene poradi ---\n");
     for (int i = radky; i >= 0; i--)
