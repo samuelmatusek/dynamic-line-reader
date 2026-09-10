@@ -1,6 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void uvolni_text(char **text, int radky){
+
+    for (int i = 0; i < radky; i++){
+        if (text[i] != NULL)
+            free(text[i]);
+    }
+
+    free(text);
+}
+
+void realokuj_text(char **text, int radky, int velikost_textu){
+
+    int **temp = realloc(text[radky], sizeof(*text[radky]) * velikost_textu);
+            if (temp == NULL){
+                uvolni_text(text, radky);
+                printf("Nespravny vstup.\n");
+                return 1;
+            }
+            text[radky] = temp;
+            **temp = NULL;
+}
+
 int main(void){
 
     int c;
@@ -20,16 +42,7 @@ int main(void){
     while ((c = getchar()) != EOF){
         if (znaky + 1 == velikost_textu && c != '\n'){
             velikost_textu *= 2;
-            int **temp = realloc(text[radky], sizeof(*text[radky]) * velikost_textu);
-            if (temp == NULL){
-                for (int i = 0; i < radky; i++)
-                    free(text[i]);
-                free(text);
-                printf("Nespravny vstup.\n");
-                return 1;
-            }
-            text[radky] = temp;
-            **temp = NULL;
+            realokuj_text(text, radky, velikost_textu);
             text[radky][znaky] = c;
             znaky++;
         }
@@ -37,6 +50,8 @@ int main(void){
             text[radky][znaky] = '\0';
             velikost_textu = 8;
             znaky = 0;
+            radky++;
+            realokuj_text(text, radky, velikost_textu);
         }
         else{
             text[radky][znaky] = c;
@@ -44,7 +59,9 @@ int main(void){
         }
     }
     
-    
+    if (radky == 0 && znaky == 0){
+        
+    }
 
 
 
