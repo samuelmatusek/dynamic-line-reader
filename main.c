@@ -34,14 +34,19 @@ int main(void){
     int radky = 0;
     bool enter = false;
 
-    printf("Write any text:\n");
+    printf("Napis nejaky text:\n");
 
-    char **text = malloc(sizeof(**text) * velikost_textu_vnejsi);
+    char **text = calloc(velikost_textu_vnejsi, sizeof(*text));
     if (text == NULL){
         printf("Nespravny vstup.\n");
         return 1;
     }
     text[0] = malloc(sizeof(*text[0]) * velikost_textu);
+    if (text[0] == NULL){
+        free(text);
+        printf("Nespravny vstup.\n");
+        return 1;
+    }
   
     while ((c = getchar()) != EOF){
         if (enter){
@@ -72,14 +77,16 @@ int main(void){
 
             if (radky == velikost_textu_vnejsi){
                 velikost_textu_vnejsi *= 2;
-                char **temp = realloc(text, sizeof(**text) * velikost_textu_vnejsi);
+                char **temp = realloc(text, sizeof(*text) * velikost_textu_vnejsi);
                 if (temp == NULL){
-                    uvolni_text(text, radky);
+                    uvolni_text(text, (velikost_textu_vnejsi / 2) - 1);
                     printf("Nespravny vstup.\n");
                     return 1;
                 }
                 text = temp;
                 temp = NULL;
+                for (int i = velikost_textu_vnejsi / 2; i < velikost_textu_vnejsi; i++)
+                    text[i] = NULL;
             }
         }
         else {
