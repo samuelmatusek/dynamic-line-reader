@@ -1,13 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char *nacti_radek(void){
-
-}
-
 int main(void){
 
-    char *c;
+    int c;
     int velikost_textu = 8;
 
     printf("Write any text:\n");
@@ -17,9 +13,12 @@ int main(void){
         printf("Nespravny vstup.\n");
         return 1;
     }
+  
+    while ((c = getchar()) != EOF){
         
-
-    while ()
+    }
+    
+    
 
 
 
