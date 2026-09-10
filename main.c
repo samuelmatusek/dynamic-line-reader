@@ -67,7 +67,7 @@ int main(void){
     }
     
     printf("--- Obracene poradi ---\n");
-    for (int i = radky; i >= 0; i++)
+    for (int i = radky; i >= 0; i--)
         printf("[%d]: %s\n", radky + 1, text[radky]);
     uvolni_text(text, radky);
 
