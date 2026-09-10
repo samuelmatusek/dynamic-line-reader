@@ -4,7 +4,7 @@
 
 void uvolni_text(char **text, int radky){
 
-    for (int i = 0; i < radky; i++){
+    for (int i = 0; i <= radky; i++){
         if (text[i] != NULL)
             free(text[i]);
     }
@@ -72,10 +72,7 @@ int main(void){
             znaky = 0;
             radky++;
             enter = true;
-            if(realokuj_text(text, radky, velikost_textu)){
-                printf("Nespravny vstup.\n");
-                return 1;
-            }
+            text[radky] = malloc(velikost_textu * sizeof(*text[radky]));    
         }
         else {
             text[radky][znaky] = c;
@@ -88,7 +85,7 @@ int main(void){
     
     printf("--- Obracene poradi ---\n");
     for (int i = radky; i >= 0; i--)
-        printf("[%d]: %s\n", radky + 1, text[i]);
+        printf("[%d]: %s\n", i + 1, text[i]);
     uvolni_text(text, radky);
 
     return 0;
