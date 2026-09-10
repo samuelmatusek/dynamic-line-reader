@@ -28,13 +28,13 @@ int main(void){
 
     int c;
     int velikost_textu = 8;
+    int velikost_textu_vnejsi = 8;
     int znaky = 0;
     int radky = 0;
-    int ve_slove = 0;
 
     printf("Write any text:\n");
 
-    char **text = malloc(sizeof(**text) * velikost_textu);
+    char **text = malloc(sizeof(**text) * velikost_textu_vnejsi);
     if (text == NULL){
         printf("Nespravny vstup.\n");
         return 1;
@@ -42,9 +42,16 @@ int main(void){
     text[0] = malloc(sizeof(*text[0]) * velikost_textu);
   
     while ((c = getchar()) != EOF){
-        if (ve_slove){
-            radky++;
-            ve_slove = 0;
+        if (radky == velikost_textu_vnejsi){
+            velikost_textu_vnejsi *= 2;
+            char **temp = realloc(text, sizeof(**text) * velikost_textu_vnejsi);
+            if (temp == NULL){
+                uvolni_text(text, radky);
+                printf("Nespravny vstup.\n");
+                return 1;
+            }
+            text = temp;
+            temp = NULL;
         }
         if (znaky + 1 == velikost_textu && c != '\n'){
             velikost_textu *= 2;
@@ -59,7 +66,7 @@ int main(void){
             text[radky][znaky] = '\0';
             velikost_textu = 8;
             znaky = 0;
-            ve_slove = 1;
+            radky++;
             if(realokuj_text(text, radky, velikost_textu)){
                 printf("Nespravny vstup.\n");
                 return 1;
@@ -73,7 +80,7 @@ int main(void){
     
     printf("--- Obracene poradi ---\n");
     for (int i = radky; i >= 0; i--)
-        printf("[%d]: %s\n", radky + 1, text[radky]);
+        printf("[%d]: %s\n", radky + 1, text[i]);
     uvolni_text(text, radky);
 
     return 0;
