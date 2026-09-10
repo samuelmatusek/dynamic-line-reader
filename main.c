@@ -13,13 +13,13 @@ void uvolni_text(char **text, int radky){
 
 char realokuj_text(char **text, int radky, int velikost_textu){
 
-    int **temp = realloc(text[radky], sizeof(*text[radky]) * velikost_textu);
+    char *temp = realloc(text[radky], sizeof(*text[radky]) * velikost_textu);
     if (temp == NULL){
         uvolni_text(text, radky);
         return 1;
     }
     text[radky] = temp;
-    **temp = NULL;
+    temp = NULL;
 
     return 0;
 }
