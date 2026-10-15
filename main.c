@@ -86,7 +86,7 @@ int main(void){
                 text = temp;
                 temp = NULL;
                 for (int i = velikost_textu_vnejsi / 2; i < velikost_textu_vnejsi; i++)
-                    text[i] = NULL;
+                    text[i] = NULL
             }
         }
         else {
